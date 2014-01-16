@@ -19,7 +19,9 @@
 
       this.addContentHandlers();
 
-      if (!(this.isTouchDevice() && this.options.touchNative)) {
+      if (this.isTouchDevice() && this.options.touchNative) {
+        this.addTouchClass();
+      } else {
         this.addWindowHandlers();
         this.addWrapperHandlers();
 
@@ -39,7 +41,9 @@
     _destroy: function destroy() {
       this.restore();
 
-      if (!(this.isTouchDevice() && this.options.touchNative)) {
+      if (this.isTouchDevice() && this.options.touchNative) {
+        this.removeTouchClass();
+      } else {
         if (this.fromSelector) {
           this.destroyScrollbarXFromSelector();
           this.destroyScrollbarYFromSelector();
@@ -98,6 +102,14 @@
       this.buttonInterval = setInterval(function setButtonIntervalClosure() {
         method.call(context);
       }, this.options.buttonInterval);
+    },
+
+    addTouchClass: function () {
+      this.wrapper.addClass('scola-touch');
+    },
+
+    removeTouchClass: function () {
+      this.wrapper.removeClass('scola-touch');
     },
 
     addWindowHandlers: function addWindowHandlers() {
@@ -991,8 +1003,8 @@
     }
   });
 
-  $(document).ready(function() {
-    $.scrollbar = function() {
+  $(document).ready(function () {
+    $.scrollbar = function () {
       var tmp = $('<div>').css({
         position: 'absolute',
         left: -100,
