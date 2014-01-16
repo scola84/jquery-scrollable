@@ -7,6 +7,7 @@
       isWrapper: false,
       minHandleSize: 20,
       scrollDelta: 60,
+      selectorContent: '.content',
       selectorX: null,
       selectorY: null,
       showButtons: true,
@@ -60,7 +61,7 @@
     setupObjects: function setupObjects() {
       if (this.options.isWrapper) {
         this.wrapper = this.element.addClass('scola-scrollable');
-        this.content = this.wrapper.children().eq(1);
+        this.content = this.wrapper.children(this.options.selectorContent);
       } else {
         this.content = this.element.wrap('<div>');
         this.wrapper = this.content.parent().addClass('scola-scrollable');
