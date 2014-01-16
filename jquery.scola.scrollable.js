@@ -1,4 +1,4 @@
-(function jQueryScolaScrollable($) {
+(function ($) {
   'use strict';
 
   $.widget('scola.scrollable', {
@@ -14,7 +14,7 @@
       touchNative: true
     },
 
-    _create: function create() {
+    _create: function () {
       this.setupObjects();
 
       this.addContentHandlers();
@@ -38,7 +38,7 @@
       }
     },
 
-    _destroy: function destroy() {
+    _destroy: function () {
       this.restore();
 
       if (this.isTouchDevice() && this.options.touchNative) {
@@ -62,7 +62,7 @@
       this.teardownObjects();
     },
 
-    setupObjects: function setupObjects() {
+    setupObjects: function () {
       if (this.options.isWrapper) {
         this.wrapper = this.element.addClass('scola-scrollable');
         this.content = this.wrapper.children(this.options.selectorContent);
@@ -84,7 +84,7 @@
       this.showCorner = true;
     },
 
-    teardownObjects: function teardownObjects() {
+    teardownObjects: function () {
       if (this.options.isWrapper) {
         this.element.removeClass('scola-scrollable');
       } else {
@@ -92,14 +92,14 @@
       }
     },
 
-    isTouchDevice: function isTouchDevice() {
+    isTouchDevice: function () {
       return ('ontouchstart' in window || navigator.msMaxTouchPoints);
     },
 
-    setButtonInterval: function setButtonInterval(method) {
+    setButtonInterval: function (method) {
       var context = this;
 
-      this.buttonInterval = setInterval(function setButtonIntervalClosure() {
+      this.buttonInterval = setInterval(function () {
         method.call(context);
       }, this.options.buttonInterval);
     },
@@ -112,15 +112,15 @@
       this.wrapper.removeClass('scola-touch');
     },
 
-    addWindowHandlers: function addWindowHandlers() {
+    addWindowHandlers: function () {
       $(window).on('mouseup.scola-scrollable', $.proxy(this.handleWindowMouseUp, this));
     },
 
-    removeWindowHandlers: function removeContentHandlers() {
+    removeWindowHandlers: function () {
       $(window).off('.scola-scrollable');
     },
 
-    handleWindowMouseUp: function handleWindowMouseUp() {
+    handleWindowMouseUp: function () {
       if (this.activeScrollbar) {
         this.activeScrollbar.removeClass('scola-active');
         this.activeScrollbar = null;
@@ -140,15 +140,15 @@
       }
     },
 
-    addWrapperHandlers: function addWrapperHandlers() {
+    addWrapperHandlers: function () {
       this.wrapper.on('resize.scola-scrollable', $.proxy(this.update, this));
     },
 
-    removeWrapperHandlers: function removeContentHandlers() {
+    removeWrapperHandlers: function () {
       this.wrapper.off('.scola-scrollable');
     },
 
-    addContentHandlers: function addContentHandlers() {
+    addContentHandlers: function () {
       this.content.on({
         'input.scola-scrollable': $.proxy(this.update, this),
         'mouseenter.scola-scrollable': $.proxy(this.handleContentMouseEnter, this),
@@ -159,11 +159,11 @@
       });
     },
 
-    removeContentHandlers: function removeContentHandlers() {
+    removeContentHandlers: function () {
       this.content.off('.scola-scrollable');
     },
 
-    handleContentMouseWheel: function handleContentMouseWheel(event, delta) {
+    handleContentMouseWheel: function (event, delta) {
       if (!this.showScrollbarY && this.showScrollbarX) {
         event.preventDefault();
 
@@ -171,20 +171,20 @@
       }
     },
 
-    handleContentMouseEnter: function handleContentMouseEnter() {
+    handleContentMouseEnter: function () {
       this.wrapper.addClass('scola-hover');
     },
 
-    handleContentMouseLeave: function handleContentMouseLeave() {
+    handleContentMouseLeave: function () {
       this.wrapper.removeClass('scola-hover');
     },
 
-    handleContentScroll: function handleContentScroll() {
+    handleContentScroll: function () {
       this.setHandlePosition();
       this.triggerScrollEdge();
     },
 
-    triggerScrollEdge: function triggerScrollEdge() {
+    triggerScrollEdge: function () {
       var oldPosition = this.scrollPosition;
       var newPosition = this.content.scrollPosition();
 
@@ -207,7 +207,7 @@
       }
     },
 
-    createScrollbarXFromSelector: function createScrollbarXFromSelector() {
+    createScrollbarXFromSelector: function () {
       this.scrollbarX = $(this.options.selectorX, this.element);
       this.addScrollbarXOuterHandlers();
 
@@ -230,7 +230,7 @@
       }
     },
 
-    destroyScrollbarXFromSelector: function destroyScrollbarXFromSelector() {
+    destroyScrollbarXFromSelector: function () {
       if (this.buttonRight.length > 0) {
         this.removeButtonRightHandlers();
       }
@@ -244,7 +244,7 @@
       this.removeScrollbarXOuterHandlers();
     },
 
-    createScrollbarX: function createScrollbarX() {
+    createScrollbarX: function () {
       this.createScrollbarXOuter();
       this.addScrollbarXOuterHandlers();
 
@@ -263,7 +263,7 @@
       this.addHandleXHandlers();
     },
 
-    destroyScrollbarX: function destroyScrollbarX() {
+    destroyScrollbarX: function () {
       this.removeHandleXHandlers();
       this.destroyHandleX();
 
@@ -282,38 +282,38 @@
       this.destroyScrollbarXOuter();
     },
 
-    createScrollbarXOuter: function createScrollbarXOuter() {
+    createScrollbarXOuter: function () {
       this.scrollbarX = $('<div class="scola-scrollbar scola-x">').css({
         position: 'absolute'
       }).appendTo(this.wrapper);
     },
 
-    destroyScrollbarXOuter: function destroyScrollbarXOuter() {
+    destroyScrollbarXOuter: function () {
       this.scrollbarX.remove();
     },
 
-    addScrollbarXOuterHandlers: function addScrollbarXOuterHandlers() {
+    addScrollbarXOuterHandlers: function () {
       this.scrollbarX.on({
         'mouseenter.scola-scrollable': $.proxy(this.handleScrollbarXMouseEnter, this),
         'mouseleave.scola-scrollable': $.proxy(this.handleScrollbarXMouseLeave, this)
       });
     },
 
-    removeScrollbarXOuterHandlers: function removeScrollbarXOuterHandlers() {
+    removeScrollbarXOuterHandlers: function () {
       this.scrollbarX.off('.scola-scrollable');
     },
 
-    handleScrollbarXMouseEnter: function handleScrollbarXMouseEnter() {
+    handleScrollbarXMouseEnter: function () {
       this.wrapper.addClass('scola-hover');
       this.scrollbarX.addClass('scola-hover');
     },
 
-    handleScrollbarXMouseLeave: function handleScrollbarXMouseLeave() {
+    handleScrollbarXMouseLeave: function () {
       this.wrapper.removeClass('scola-hover');
       this.scrollbarX.removeClass('scola-hover');
     },
 
-    createButtonLeft: function createButtonLeft() {
+    createButtonLeft: function () {
       this.buttonLeft = $('<div class="scola-button scola-left">').css({
         position: 'absolute',
         width: $.scrollbar.height,
@@ -321,19 +321,19 @@
       }).appendTo(this.scrollbarX);
     },
 
-    destroyButtonLeft: function destroyButtonLeft() {
+    destroyButtonLeft: function () {
       this.buttonLeft.remove();
     },
 
-    addButtonLeftHandlers: function addButtonLeftHandlers() {
+    addButtonLeftHandlers: function () {
       this.buttonLeft.on('mousedown.scola-scrollable', $.proxy(this.handleButtonLeftMouseDown, this));
     },
 
-    removeButtonLeftHandlers: function removeButtonLeftHandlers() {
+    removeButtonLeftHandlers: function () {
       this.buttonLeft.off('.scola-scrollable');
     },
 
-    handleButtonLeftMouseDown: function handleButtonLeftMouseDown() {
+    handleButtonLeftMouseDown: function () {
       this.buttonLeft.addClass('scola-active');
       this.scrollbarX.addClass('scola-active');
 
@@ -345,11 +345,11 @@
       this.setButtonInterval(this.scrollLeft);
     },
 
-    scrollLeft: function scrollLeft() {
+    scrollLeft: function () {
       this.content.scrollLeft(this.content.scrollLeft() - this.options.scrollDelta);
     },
 
-    createButtonRight: function createButtonRight() {
+    createButtonRight: function () {
       this.buttonRight = $('<div class="scola-button scola-right">').css({
         position: 'absolute',
         width: $.scrollbar.height,
@@ -358,19 +358,19 @@
       }).appendTo(this.scrollbarX);
     },
 
-    destroyButtonRight: function removeButtonRight() {
+    destroyButtonRight: function () {
       this.buttonRight.remove();
     },
 
-    addButtonRightHandlers: function addButtonRightHandlers() {
+    addButtonRightHandlers: function () {
       this.buttonRight.on('mousedown.scola-scrollable', $.proxy(this.handleButtonRightMouseDown, this));
     },
 
-    removeButtonRightHandlers: function removeButtonRightHandlers() {
+    removeButtonRightHandlers: function () {
       this.buttonRight.off('.scola-scrollable');
     },
 
-    handleButtonRightMouseDown: function handleButtonRightMouseDown() {
+    handleButtonRightMouseDown: function () {
       this.buttonRight.addClass('scola-active');
       this.scrollbarX.addClass('scola-active');
 
@@ -382,11 +382,11 @@
       this.setButtonInterval(this.scrollRight);
     },
 
-    scrollRight: function scrollRight() {
+    scrollRight: function () {
       this.content.scrollLeft(this.content.scrollLeft() + this.options.scrollDelta);
     },
 
-    createHandleContainerX: function createHandleContainerX() {
+    createHandleContainerX: function () {
       this.handleContainerX = $('<div class="scola-handle-container scola-x">').css({
         position: 'absolute',
         left: 0,
@@ -402,28 +402,28 @@
       }
     },
 
-    destroyHandleContainerX: function destroyHandleContainerX() {
+    destroyHandleContainerX: function () {
       this.handleContainerX.remove();
     },
 
-    addHandleContainerXHandlers: function addHandleContainerXHandlers() {
+    addHandleContainerXHandlers: function () {
       this.handleContainerX.on({
         'mousewheel.scola-scrollable': $.proxy(this.handleContainerXMouseWheel, this),
         'mousedown.scola-scrollable': $.proxy(this.handleContainerXMouseDown, this)
       });
     },
 
-    removeHandleContainerXHandlers: function removeHandleContainerXHandlers() {
+    removeHandleContainerXHandlers: function () {
       this.handleContainerX.off('.scola-scrollable');
     },
 
-    handleContainerXMouseWheel: function handleContainerXMouseWheel(event, delta) {
+    handleContainerXMouseWheel: function (event, delta) {
       event.preventDefault();
 
       this.content.scrollLeft(this.content.scrollLeft() - (delta * this.options.scrollDelta));
     },
 
-    handleContainerXMouseDown: function handleContainerXMouseDown(event) {
+    handleContainerXMouseDown: function (event) {
       if (this.handleX.is(event.target)) {
         return;
       }
@@ -434,7 +434,7 @@
       this.content.scrollLeft(((this.scrollSize.width - this.innerSize.width) * ratio) - correction);
     },
 
-    createHandleX: function createHandleX() {
+    createHandleX: function () {
       this.handleX = $('<div class="scola-handle scola-x">').css({
         position: 'absolute',
         left: 0,
@@ -443,11 +443,11 @@
       }).appendTo(this.handleContainerX);
     },
 
-    destroyHandleX: function destroyHandleX() {
+    destroyHandleX: function () {
       this.handleX.remove();
     },
 
-    addHandleXHandlers: function addHandleXHandlers() {
+    addHandleXHandlers: function () {
       this.handleX.draggable({
         containment: 'parent',
         drag: $.proxy(this.handleXDrag, this),
@@ -458,20 +458,20 @@
       });
     },
 
-    removeHandleXHandlers: function removeHandleXHandlers() {
+    removeHandleXHandlers: function () {
       this.handleX.draggable('destroy').off('.scola-scrollable');
     },
 
-    handleXDrag: function handleXDrag(event, ui) {
+    handleXDrag: function (event, ui) {
       this.content.scrollLeft((ui.position.left / (this.handleContainerXSize.width - this.handleXOuterSize.width)) *
         (this.scrollSize.width - this.innerSize.width));
     },
 
-    handleXDragStop: function handleXDragStop() {
+    handleXDragStop: function () {
       $(window).trigger('mouseup');
     },
 
-    handleXMouseDown: function handleXMouseDown() {
+    handleXMouseDown: function () {
       this.handleX.addClass('scola-active');
       this.scrollbarX.addClass('scola-active');
 
@@ -479,11 +479,11 @@
       this.activeScrollbar = this.scrollbarX;
     },
 
-    handleXMouseUp: function handleXMouseUp() {
+    handleXMouseUp: function () {
       $(window).trigger('mouseup');
     },
 
-    createScrollbarYFromSelector: function createScrollbarYFromSelector() {
+    createScrollbarYFromSelector: function () {
       this.scrollbarY = $(this.options.selectorY, this.element);
       this.addScrollbarYOuterHandlers();
 
@@ -506,7 +506,7 @@
       }
     },
 
-    destroyScrollbarYFromSelector: function destroyScrollbarYFromSelector() {
+    destroyScrollbarYFromSelector: function () {
       if (this.buttonDown.length > 0) {
         this.removeButtonDownHandlers();
       }
@@ -520,7 +520,7 @@
       this.removeScrollbarYOuterHandlers();
     },
 
-    createScrollbarY: function createScrollbarY() {
+    createScrollbarY: function () {
       this.createScrollbarYOuter();
       this.addScrollbarYOuterHandlers();
 
@@ -539,7 +539,7 @@
       this.addHandleYHandlers();
     },
 
-    destroyScrollbarY: function destroyScrollbarY() {
+    destroyScrollbarY: function () {
       this.removeHandleYHandlers();
       this.destroyHandleY();
 
@@ -558,38 +558,38 @@
       this.destroyScrollbarYOuter();
     },
 
-    createScrollbarYOuter: function createScrollbarYOuter() {
+    createScrollbarYOuter: function () {
       this.scrollbarY = $('<div class="scola-scrollbar scola-y">').css({
         position: 'absolute'
       }).appendTo(this.wrapper);
     },
 
-    destroyScrollbarYOuter: function destroyScrollbarYOuter() {
+    destroyScrollbarYOuter: function () {
       this.scrollbarY.remove();
     },
 
-    addScrollbarYOuterHandlers: function addScrollbarYOuterHandlers() {
+    addScrollbarYOuterHandlers: function () {
       this.scrollbarY.on({
         'mouseenter.scola-scrollable': $.proxy(this.handleScrollbarYMouseEnter, this),
         'mouseleave.scola-scrollable': $.proxy(this.handleScrollbarYMouseLeave, this)
       });
     },
 
-    removeScrollbarYOuterHandlers: function removeScrollbarYOuterHandlers() {
+    removeScrollbarYOuterHandlers: function () {
       this.scrollbarY.off('.scola-scrollable');
     },
 
-    handleScrollbarYMouseEnter: function handleScrollbarYMouseEnter() {
+    handleScrollbarYMouseEnter: function () {
       this.wrapper.addClass('scola-hover');
       this.scrollbarY.addClass('scola-hover');
     },
 
-    handleScrollbarYMouseLeave: function handleScrollbarYMouseLeave() {
+    handleScrollbarYMouseLeave: function () {
       this.wrapper.removeClass('scola-hover');
       this.scrollbarY.removeClass('scola-hover');
     },
 
-    createButtonUp: function createButtonUp() {
+    createButtonUp: function () {
       this.buttonUp = $('<div class="scola-button scola-up">').css({
         position: 'absolute',
         width: $.scrollbar.width,
@@ -597,21 +597,21 @@
       }).appendTo(this.scrollbarY);
     },
 
-    destroyButtonUp: function destroyButtonUp() {
+    destroyButtonUp: function () {
       this.buttonUp.remove();
     },
 
-    addButtonUpHandlers: function addButtonUpHandlers() {
+    addButtonUpHandlers: function () {
       this.buttonUp.on({
         'mousedown.scola-scrollable': $.proxy(this.handleButtonUpMouseDown, this)
       });
     },
 
-    removeButtonUpHandlers: function removeButtonUpHandlers() {
+    removeButtonUpHandlers: function () {
       this.buttonUp.off('.scola-scrollable');
     },
 
-    handleButtonUpMouseDown: function handleButtonUpMouseDown() {
+    handleButtonUpMouseDown: function () {
       this.buttonUp.addClass('scola-active');
       this.scrollbarY.addClass('scola-active');
 
@@ -623,11 +623,11 @@
       this.setButtonInterval(this.scrollUp);
     },
 
-    scrollUp: function scrollUp() {
+    scrollUp: function () {
       this.content.scrollTop(this.content.scrollTop() - this.options.scrollDelta);
     },
 
-    createButtonDown: function createButtonDown() {
+    createButtonDown: function () {
       this.buttonDown = $('<div class="scola-button scola-down">').css({
         position: 'absolute',
         width: $.scrollbar.width,
@@ -636,21 +636,21 @@
       }).appendTo(this.scrollbarY);
     },
 
-    destroyButtonDown: function destroyButtonDown() {
+    destroyButtonDown: function () {
       this.buttonDown.remove();
     },
 
-    addButtonDownHandlers: function addButtonDownHandlers() {
+    addButtonDownHandlers: function () {
       this.buttonDown.on({
         'mousedown.scola-scrollable': $.proxy(this.handleButtonDownMouseDown, this)
       });
     },
 
-    removeButtonDownHandlers: function removeButtonDownHandlers() {
+    removeButtonDownHandlers: function () {
       this.buttonDown.off('.scola-scrollable');
     },
 
-    handleButtonDownMouseDown: function handleButtonDownMouseDown() {
+    handleButtonDownMouseDown: function () {
       this.buttonDown.addClass('scola-active');
       this.scrollbarY.addClass('scola-active');
 
@@ -662,11 +662,11 @@
       this.setButtonInterval(this.scrollDown);
     },
 
-    scrollDown: function scrollDown() {
+    scrollDown: function () {
       this.content.scrollTop(this.content.scrollTop() + this.options.scrollDelta);
     },
 
-    createHandleContainerY: function createHandleContainerY() {
+    createHandleContainerY: function () {
       this.handleContainerY = $('<div class="scola-handle-container scola-y">').css({
         position: 'absolute',
         top: 0,
@@ -682,28 +682,28 @@
       }
     },
 
-    destroyHandleContainerY: function destroyHandleContainerY() {
+    destroyHandleContainerY: function () {
       this.handleContainerY.remove();
     },
 
-    addHandleContainerYHandlers: function addHandleContainerYHandlers() {
+    addHandleContainerYHandlers: function () {
       this.handleContainerY.on({
         'mousewheel.scola-scrollable': $.proxy(this.handleContainerYMouseWheel, this),
         'mousedown.scola-scrollable': $.proxy(this.handleContainerYMouseDown, this)
       });
     },
 
-    removeHandleContainerYHandlers: function removeHandleContainerYHandlers() {
+    removeHandleContainerYHandlers: function () {
       this.handleContainerY.off('.scola-scrollable');
     },
 
-    handleContainerYMouseWheel: function handleContainerYMouseWheel(event, delta) {
+    handleContainerYMouseWheel: function (event, delta) {
       event.preventDefault();
 
       this.content.scrollTop(this.content.scrollTop() - (delta * this.options.scrollDelta));
     },
 
-    handleContainerYMouseDown: function handleContainerYMouseDown(event) {
+    handleContainerYMouseDown: function (event) {
       if (this.handleY.is(event.target)) {
         return;
       }
@@ -714,7 +714,7 @@
       this.content.scrollTop(((this.scrollSize.height - this.innerSize.height) * ratio) - correction);
     },
 
-    createHandleY: function createHandleY() {
+    createHandleY: function () {
       this.handleY = $('<div class="scola-handle scola-y">').css({
         position: 'absolute',
         left: 0,
@@ -723,11 +723,11 @@
       }).appendTo(this.handleContainerY);
     },
 
-    destroyHandleY: function destroyHandleY() {
+    destroyHandleY: function () {
       this.handleY.remove();
     },
 
-    addHandleYHandlers: function addHandleYHandlers() {
+    addHandleYHandlers: function () {
       this.handleY.draggable({
         containment: 'parent',
         stop: $.proxy(this.handleYDragStop, this),
@@ -738,20 +738,20 @@
       });
     },
 
-    removeHandleYHandlers: function removeHandleYHandlers() {
+    removeHandleYHandlers: function () {
       this.handleY.draggable('destroy').off('.scola-scrollable');
     },
 
-    handleYDrag: function handleYDrag(event, ui) {
+    handleYDrag: function (event, ui) {
       this.content.scrollTop((ui.position.top / (this.handleContainerYSize.height - this.handleYOuterSize.height)) *
         (this.scrollSize.height - this.innerSize.height));
     },
 
-    handleYDragStop: function handleYDragStop() {
+    handleYDragStop: function () {
       $(window).trigger('mouseup');
     },
 
-    handleYMouseDown: function handleYMouseDown() {
+    handleYMouseDown: function () {
       this.handleY.addClass('scola-active');
       this.scrollbarY.addClass('scola-active');
 
@@ -759,11 +759,11 @@
       this.activeScrollbar = this.scrollbarY;
     },
 
-    handleYMouseUp: function handleYMouseUp() {
+    handleYMouseUp: function () {
       $(window).trigger('mouseup');
     },
 
-    createCorner: function createCorner() {
+    createCorner: function () {
       this.corner = $('<div class="scola-corner">').css({
         position: 'absolute',
         width: $.scrollbar.width,
@@ -771,13 +771,13 @@
       }).appendTo(this.wrapper);
     },
 
-    destroyCorner: function destroyCorner() {
+    destroyCorner: function () {
       if (this.corner) {
         this.corner.remove();
       }
     },
 
-    update: function update() {
+    update: function () {
       this.overflowX = this.content.overflow('x');
       this.overflowY = this.content.overflow('y');
 
@@ -812,7 +812,7 @@
       this.calculateHandleSize();
     },
 
-    restore: function restore() {
+    restore: function () {
       if (this.fromSelector) {
         this.restoreContentSize();
       }
@@ -820,7 +820,7 @@
       this.restoreScrollbarVisibility();
     },
 
-    calculateInnerOuterDelta: function calculateInnerOuterDelta() {
+    calculateInnerOuterDelta: function () {
       this.innerOuterDelta = {
         left: parseFloat(this.content.css('margin-left')) + parseFloat(this.content.css('border-left-width')),
         right: parseFloat(this.content.css('margin-right')) + parseFloat(this.content.css('border-right-width')),
@@ -829,19 +829,19 @@
       };
     },
 
-    calculateHandleSize: function calculateHandleSize() {
+    calculateHandleSize: function () {
       // Check visibility, otherwise jQuery will perform a very costly operation
       // to calculate width/height
       this.handleXOuterSize = (this.handleX.is(':visible')) ? this.handleX.outerSize(true) : {};
       this.handleYOuterSize = (this.handleY.is(':visible')) ? this.handleY.outerSize(true) : {};
     },
 
-    calculateHandleContainerSize: function calculateHandleContainerSize() {
+    calculateHandleContainerSize: function () {
       this.handleContainerXSize = (this.handleContainerX.is(':visible')) ? this.handleContainerX.size() : {};
       this.handleContainerYSize = (this.handleContainerY.is(':visible')) ? this.handleContainerY.size() : {};
     },
 
-    setContentSize: function setContentSize() {
+    setContentSize: function () {
       if (this.scrollbarX && this.showScrollbarX) {
         this.content.css('margin-bottom', -$.scrollbar.height);
       }
@@ -851,7 +851,7 @@
       }
     },
 
-    restoreContentSize: function restoreContentSize() {
+    restoreContentSize: function () {
       if (this.scrollbarX) {
         this.content.css('margin-bottom', '');
       }
@@ -861,7 +861,7 @@
       }
     },
 
-    setScrollbarVisibility: function setScrollbarVisibility() {
+    setScrollbarVisibility: function () {
       if (this.scrollbarX) {
         this.setScrollbarXVisibility();
       }
@@ -871,7 +871,7 @@
       }
     },
 
-    setScrollbarXVisibility: function setScrollbarXVisibility() {
+    setScrollbarXVisibility: function () {
       var hasOverflowX = (this.scrollSize.width > this.innerSize.width);
       var showScrollbarX = (this.overflowX === 'scroll' || (this.overflowX === 'auto' && hasOverflowX));
       var disableScrollbarX = (this.overflowX === 'scroll' && !hasOverflowX);
@@ -890,7 +890,7 @@
       }
     },
 
-    setScrollbarYVisibility: function setScrollbarYVisibility() {
+    setScrollbarYVisibility: function () {
       var hasOverflowY = (this.scrollSize.height > this.innerSize.height);
       var showScrollbarY = (this.overflowY === 'scroll' || (this.overflowY === 'auto' && hasOverflowY));
       var disableScrollbarY = (this.overflowY === 'scroll' && !hasOverflowY);
@@ -909,7 +909,7 @@
       }
     },
 
-    restoreScrollbarVisibility: function restoreScrollbarVisibility() {
+    restoreScrollbarVisibility: function () {
       if (this.scrollbarX) {
         this.wrapper.removeClass('scola-x');
         this.scrollbarX.removeClass('scola-disabled');
@@ -921,7 +921,7 @@
       }
     },
 
-    setScrollbarPosition: function setScrollbarPosition() {
+    setScrollbarPosition: function () {
       if (this.scrollbarX && this.showScrollbarX) {
         this.scrollbarX.css({
           top: this.position.top + this.innerOuterDelta.top + this.innerSize.height,
@@ -937,7 +937,7 @@
       }
     },
 
-    setScrollbarSize: function setScrollbarSize() {
+    setScrollbarSize: function () {
       if (this.scrollbarX && this.showScrollbarX) {
         this.scrollbarX.css({
           width: this.innerSize.width,
@@ -953,7 +953,7 @@
       }
     },
 
-    setHandlePosition: function setHandlePosition() {
+    setHandlePosition: function () {
       if (this.handleX) {
         var contentScrollAreaX = this.scrollSize.width - this.innerSize.width;
         var scrollbarScrollAreaX = this.handleContainerXSize.width - this.handleXOuterSize.width;
@@ -969,7 +969,7 @@
       }
     },
 
-    setHandleSize: function setHandleSize() {
+    setHandleSize: function () {
       if (this.handleX) {
         var newWidth = Math.round(this.innerSize.width / this.scrollSize.width * this.handleContainerXSize.width);
 
@@ -983,7 +983,7 @@
       }
     },
 
-    setCornerVisibility: function setCornerVisibility() {
+    setCornerVisibility: function () {
       var showCorner = this.showScrollbarX && this.showScrollbarY;
 
       if (this.corner && this.showCorner !== showCorner) {
@@ -993,7 +993,7 @@
       }
     },
 
-    setCornerPosition: function setCornerPosition() {
+    setCornerPosition: function () {
       if (this.corner && this.showCorner) {
         this.corner.css({
           left: this.position.left + this.innerOuterDelta.left + this.innerSize.width,
@@ -1028,7 +1028,7 @@
     }();
   });
 
-  $.fn.overflow = function overflow(orientation) {
+  $.fn.overflow = function (orientation) {
     var overflow = {
       x: this.css('overflow-x'),
       y: this.css('overflow-y')
@@ -1045,14 +1045,14 @@
     return overflow[orientation];
   };
 
-  $.fn.size = function size() {
+  $.fn.size = function () {
     return {
       width: this.width(),
       height: this.height()
     };
   },
 
-  $.fn.innerSize = function innerSize(excludeScrollbar) {
+  $.fn.innerSize = function (excludeScrollbar) {
     var size = {
       width: this.innerWidth(),
       height: this.innerHeight()
@@ -1078,21 +1078,21 @@
     return size;
   };
 
-  $.fn.outerSize = function outerSize(includeMargin) {
+  $.fn.outerSize = function (includeMargin) {
     return {
       width: this.outerWidth(includeMargin),
       height: this.outerHeight(includeMargin)
     };
   },
 
-  $.fn.scrollSize = function scrollSize() {
+  $.fn.scrollSize = function () {
     return {
       width: (this[0].scrollWidth > 0) ? this[0].scrollWidth : this.innerWidth(),
       height: (this[0].scrollHeight > 0) ? this[0].scrollHeight : this.innerHeight()
     };
   };
 
-  $.fn.scrollPosition = function scrollPosition() {
+  $.fn.scrollPosition = function () {
     return {
       left: this.scrollLeft(),
       top: this.scrollTop()
